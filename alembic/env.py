@@ -6,7 +6,7 @@ from sqlalchemy import create_engine, engine_from_config
 from sqlalchemy import pool
 
 from alembic import context
-from app.models.user_model import Base  # adjust "myapp.models" to the actual location of your Base
+from app.models.api_model import Base  # adjust "myapp.models" to the actual location of your Base
 
 from app.dependencies import get_settings
 settings = get_settings()
