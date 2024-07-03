@@ -4,16 +4,16 @@ from starlette.responses import JSONResponse
 from starlette.middleware.cors import CORSMiddleware  # Import the CORSMiddleware
 from app.database import Database
 from app.dependencies import get_settings
-from app.routers import event_routes, ui_routes, user_routes
+from app.routers import api_routes
 from app.utils.api_description import getDescription
 app = FastAPI(
     root_path="/api",
-    title="User Management",
+    title="FastAPi with RAG",
     description=getDescription(),
     version="0.0.1",
     contact={
         "name": "API Support",
-        "url": "https://github.com/WISClub/user_management",
+        "url": "https://github.com/joec11/is690_midterm",
         "email": "support@example.com",
     },
     license_info={"name": "MIT", "url": "https://opensource.org/licenses/MIT"},
@@ -34,9 +34,4 @@ async def startup_event():
     settings = get_settings()
     Database.initialize(settings.database_url, settings.debug)
 
-app.include_router(user_routes.router)
-app.include_router(event_routes.router)
-app.include_router(ui_routes.router)
-
-
-
+app.include_router(api_routes.router)
