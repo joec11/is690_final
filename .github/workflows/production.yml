@@ -14,16 +14,6 @@ jobs:
     strategy:
       matrix:
         python-version: [3.10.12] # Define Python versions here
-    services:
-      postgres:
-        image: postgres:latest
-        env:
-          POSTGRES_USER: user
-          POSTGRES_PASSWORD: password
-          POSTGRES_DB: myappdb
-        ports:
-          - 5432:5432
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
       - uses: actions/checkout@v4
       
@@ -45,13 +35,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           
-      - name: Run tests with Pytest
-        env:
-          postgres_user: user
-          postgres_password: password
-          postgres_server: localhost
-          postgres_db: myappdb
-        run: pytest
+      - name: Run tests with Pytest, Pylint, and Coverage
+        run: pytest --pylint --cov
 
   build-and-push-docker-main:
     needs: test
