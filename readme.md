@@ -13,7 +13,14 @@ docker compose exec fastapi uvicorn main:app
 docker compose exec fastapi pytest
 ```
 
-## Data Sources
+## Source Code and Data References
+
+- Source Code References
+    - GitHub
+        - https://github.com/pixegami/langchain-rag-tutorial
+    - Youtube
+        - https://www.youtube.com/watch?v=tcqEUSNCn8I
+<p>
 
 - txt file (data/market_overview.txt)
     - Generated from ChatGPT.
