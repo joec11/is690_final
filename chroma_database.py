@@ -33,20 +33,21 @@ def create():
     logging.info("Chroma: create()")
 
 def load_documents():
-    loader = DirectoryLoader(DATA_PATH, glob="*.md")
+    loader = DirectoryLoader(DATA_PATH, glob=["*.csv", "*.txt"])
     logging.info("Chroma: load_documents()")
     return loader.load()
 
 def split_text(documents):
     text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=300,
-        chunk_overlap=100,
+        chunk_size=600,
+        chunk_overlap=200,
         length_function=len,
         add_start_index=True,
     )
     chunks = text_splitter.split_documents(documents)
     print(f"Split {len(documents)} documents into {len(chunks)} chunks.")
     logging.info("Chroma: split_text()")
+    logging.info(f"Split {len(documents)} documents into {len(chunks)} chunks.")
     return chunks
 
 def save_to_chroma(chunks):
@@ -56,9 +57,7 @@ def save_to_chroma(chunks):
         logging.info("Chroma: save_to_chroma() - Cleared the database")
 
     # Create a new DB from the documents.
-    db = Chroma.from_documents(
-        chunks, OpenAIEmbeddings(), persist_directory=CHROMA_PATH
-    )
+    db = Chroma.from_documents(chunks, OpenAIEmbeddings(), persist_directory=CHROMA_PATH)
     db.persist()
     print(f"Saved {len(chunks)} chunks to {CHROMA_PATH}.")
     logging.info("Chroma: save_to_chroma() - Saved chunks to the chroma directory")
