@@ -39,15 +39,15 @@ def load_documents():
 
 def split_text(documents):
     text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=600,
-        chunk_overlap=200,
+        chunk_size=2700,
+        chunk_overlap=900,
         length_function=len,
         add_start_index=True,
     )
     chunks = text_splitter.split_documents(documents)
-    print(f"Split {len(documents)} documents into {len(chunks)} chunks.")
+    print(f"Split {len(documents)} document(s) into {len(chunks)} chunks.")
     logging.info("Chroma: split_text()")
-    logging.info(f"Split {len(documents)} documents into {len(chunks)} chunks.")
+    logging.info(f"Split {len(documents)} document(s) into {len(chunks)} chunks.")
     return chunks
 
 def save_to_chroma(chunks):
