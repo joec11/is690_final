@@ -22,9 +22,6 @@ docker compose exec fastapi pytest
         - https://www.youtube.com/watch?v=tcqEUSNCn8I
 <p>
 
-- txt file (data/market_overview.txt)
+- txt files (data/market_overview.txt, data/top_twenty_cryptocurrencies.txt, data/top_twenty_stocks.txt)
     - Generated from ChatGPT.
 <p>
-
-- csv file (data/constituents.csv)
-    - https://github.com/datasets/s-and-p-500-companies/blob/main/data/constituents.csv
