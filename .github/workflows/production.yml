@@ -59,15 +59,15 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: joec11/is690_midterm:push-${{ github.run_number }}-${{ github.ref_name }}
+          tags: joec11/is690_final:push-${{ github.run_number }}-${{ github.ref_name }}
           platforms: linux/amd64,linux/arm64
-          cache-from: type=registry,ref=joec11/is690_midterm:cache
+          cache-from: type=registry,ref=joec11/is690_final:cache
           cache-to: type=inline,mode=max
           
       - name: Scan the Docker image
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: joec11/is690_midterm:push-${{ github.run_number }}-${{ github.ref_name }}
+          image-ref: joec11/is690_final:push-${{ github.run_number }}-${{ github.ref_name }}
           format: 'table'
           exit-code: '1'
           ignore-unfixed: true
@@ -93,15 +93,15 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: joec11/is690_midterm:pr-${{ github.event.pull_request.number }}-${{ github.run_number }}-${{ github.ref_name }}
+          tags: joec11/is690_final:pr-${{ github.event.pull_request.number }}-${{ github.run_number }}-${{ github.ref_name }}
           platforms: linux/amd64,linux/arm64
-          cache-from: type=registry,ref=joec11/is690_midterm:cache
+          cache-from: type=registry,ref=joec11/is690_final:cache
           cache-to: type=inline,mode=max
           
       - name: Scan the Docker image for PR
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: joec11/is690_midterm:pr-${{ github.event.pull_request.number }}-${{ github.run_number }}-${{ github.ref_name }}
+          image-ref: joec11/is690_final:pr-${{ github.event.pull_request.number }}-${{ github.run_number }}-${{ github.ref_name }}
           format: 'table'
           exit-code: '1'
           ignore-unfixed: true
@@ -127,15 +127,15 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: joec11/is690_midterm:pr-${{ github.event.pull_request.number }}-${{ github.run_number }}-${{ github.head_ref }}
+          tags: joec11/is690_final:pr-${{ github.event.pull_request.number }}-${{ github.run_number }}-${{ github.head_ref }}
           platforms: linux/amd64,linux/arm64
-          cache-from: type=registry,ref=joec11/is690_midterm:cache
+          cache-from: type=registry,ref=joec11/is690_final:cache
           cache-to: type=inline,mode=max
           
       - name: Scan the Docker image for PR
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: joec11/is690_midterm:pr-${{ github.event.pull_request.number }}-${{ github.run_number }}-${{ github.head_ref }}
+          image-ref: joec11/is690_final:pr-${{ github.event.pull_request.number }}-${{ github.run_number }}-${{ github.head_ref }}
           format: 'table'
           exit-code: '1'
           ignore-unfixed: true
