@@ -58,8 +58,23 @@ USER myuser
 # Copy application code with appropriate ownership
 COPY --chown=myuser:myuser . .
 
-# Inform Docker that the container listens on the specified port at runtime.
-EXPOSE 8000
+# Expose port 8080 to allow external access to the application running inside the container
+EXPOSE 8080
 
-# Use ENTRYPOINT to specify the executable when the container starts.
-ENTRYPOINT ["uvicorn", "main:app", "--reload", "--host", "0.0.0.0", "--port", "8080"]
+# Set the entrypoint for the container. This specifies the executable that should be run when the container starts.
+# Here, we use 'uvicorn' as the entrypoint, which is a high-performance ASGI server for running FastAPI applications.
+ENTRYPOINT ["uvicorn"]
+
+# Define the default command to run with the entrypoint.
+# This command specifies the application module and configuration for running the server.
+
+# Development Configuration:
+# Uncomment the following line to enable the development mode with live reloading.
+# This is useful during development to automatically apply code changes without restarting the server.
+# CMD ["app.main:app", "--reload", "--host", "0.0.0.0", "--port", "8080"]
+
+# Production Configuration:
+# The default command for production environments does not include the `--reload` flag.
+# This should be used in a production setting for better performance and stability.
+# The application will listen on all interfaces (`--host 0.0.0.0`) and port 8080.
+CMD ["app.main:app", "--host", "0.0.0.0", "--port", "8080"]
