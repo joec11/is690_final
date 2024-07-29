@@ -1,0 +1,81 @@
+{% extends "layout.html" %}
+
+{% block title %}RAG{% endblock %}
+<title>RAG</title>
+
+{% block content %}
+
+<h1>RAG (Retrieval Augmented Generation)</h1>
+<script>
+    function rag(event) {
+        event.preventDefault();
+
+        const query_text = document.getElementById('query_text').value;
+
+        const data = {
+            query_text: query_text
+        };
+
+        fetch('/generate/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Display the result on the page
+            if (data.query) {
+                document.getElementById('result_query').textContent = data.query;
+                document.getElementById('result_prompt').textContent = data.prompt;
+                document.getElementById('result_response').textContent = data.formatted_response;
+                document.getElementById('result_container').style.display = 'block'; // Show the result container
+            } else {
+                alert('RAG failed: ' + data.detail);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred during RAG.');
+        });
+    }
+</script>
+
+<form onsubmit="rag(event)">
+    <textarea id="query_text" name="query_text" rows="10" cols="100" placeholder="Type your query here..." required></textarea><br><br>
+    <button type="submit">Submit</button>
+</form>
+
+<!-- Result Container -->
+<div id="result_container" style="display:none; margin-top: 20px;">
+    <div class="result-item">
+        <p><strong>Query:</strong></p>
+        <pre id="result_query" class="result-content"></pre>
+    </div>
+    <div class="result-item">
+        <p><strong>Prompt:</strong></p>
+        <pre id="result_prompt" class="result-content"></pre>
+    </div>
+    <div class="result-item">
+        <p><strong>Response:</strong></p>
+        <pre id="result_response" class="result-content"></pre>
+    </div>
+</div>
+
+<style>
+    .result-item {
+        margin-bottom: 15px;
+    }
+
+    .result-content {
+        white-space: pre-wrap; /* Preserves whitespace and line breaks */
+        background-color: #f5f5f5;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        overflow: auto; /* Allows scrolling if content overflows */
+    }
+</style>
+{% endblock %}
