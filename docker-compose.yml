@@ -6,7 +6,7 @@ services:
     volumes:
       - ./:/myapp/
     ports:
-      - 8080:8080
+      - 8000:8080  # Maps host port 8000 to container port 8080
     networks:
       - app-network
     restart: always

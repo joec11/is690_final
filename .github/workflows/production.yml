@@ -75,8 +75,9 @@ jobs:
 
   build-and-push-docker-pr-main:
     needs: test
-    if: github.event_name == 'pull_request' && github.ref_name == 'main'
     runs-on: ubuntu-latest
+    environment: production
+    if: github.event_name == 'pull_request' && github.ref_name == 'main'
     steps:
       - uses: actions/checkout@v4
       
@@ -109,8 +110,9 @@ jobs:
 
   build-and-push-docker-pr-not-main:
     needs: test
-    if: github.event_name == 'pull_request' && github.ref_name != 'main' && github.head_ref != 'main'
     runs-on: ubuntu-latest
+    environment: production
+    if: github.event_name == 'pull_request' && github.ref_name != 'main' && github.head_ref != 'main'
     steps:
       - uses: actions/checkout@v4
       

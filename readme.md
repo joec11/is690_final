@@ -1,16 +1,17 @@
-# Midterm Project - IS690 Summer 2024
+# Final Project - IS690 Summer 2024
 
 - Local Commands:
 ```
-uvicorn main:app --reload
-pytest
+uvicorn app.main:app --reload
+pytest --pylint --cov
 ```
 
 - Docker Commands:
 ```
 docker compose up --build -d
-docker compose exec fastapi uvicorn main:app
-docker compose exec fastapi pytest
+docker compose exec fastapi uvicorn app.main:app
+docker compose exec fastapi pytest --pylint --cov
+docker compose down
 ```
 
 - View the Application in a Web Browser:
@@ -24,7 +25,6 @@ Type Control-C (^C)
 ```
 
 ## Presentation
-[IS690 Midterm Presentation](https://youtu.be/r0UDExgA0OE)
 
 ## Source Code and Data References
 
