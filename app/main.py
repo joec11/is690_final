@@ -6,6 +6,14 @@ from starlette.middleware.cors import CORSMiddleware
 from app.shared import logging, chroma_db
 from app.routers import rag_routes
 
+from fastapi.templating import Jinja2Templates
+
+from fastapi.responses import HTMLResponse
+from starlette.requests import Request
+
+# Initialize the Jinja2 templates
+templates = Jinja2Templates(directory="templates")
+
 # Create an instance of FastAPI with configuration parameters
 app = FastAPI(
     root_path="/api",
@@ -24,7 +32,7 @@ app = FastAPI(
 # Configure CORS middleware to allow requests from specified origins
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3001"],  # Update this to match your frontend app's URL
+    allow_origins=["*"],  # Update this to match your frontend app's URL
     allow_credentials=True,
     allow_methods=["*"],  # Allow all HTTP methods
     allow_headers=["*"],  # Allow all headers
@@ -59,6 +67,10 @@ async def shutdown_event():
     except Exception as e:
         logging.error(f"Failed to delete Chroma database: {e}")
     logging.info("FastAPI application shutting down.")
+
+@app.get("/", response_class=HTMLResponse)
+async def read_root(request: Request):
+    return templates.TemplateResponse("rag.html", {"request": request})
 
 # Include routers from the rag_routes module
 app.include_router(rag_routes.router)
