@@ -39,6 +39,9 @@ class Settings:
     # Path to the logging configuration file, defaulting to 'logging.conf'
     LOGGING_CONFIGURATION = os.getenv('LOG_CONFIG', 'logging.conf')
 
+    # Path to the templates directory, defaulting to 'templates'
+    TEMPLATES_PATH = os.getenv('TEMPLATES_DIR', 'templates')
+
     # Load the prompt template using a utility function
     PROMPT_TEMPLATE = getPromptTemplate()
 
