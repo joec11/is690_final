@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, HTMLResponse
 from pydantic import BaseModel
 import logging
 
@@ -10,33 +10,50 @@ from app.shared import chroma_db
 # External dependencies from langchain
 from langchain_openai import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
+from fastapi.templating import Jinja2Templates
+from starlette.requests import Request
 
 # Initialize the API router and settings
 router = APIRouter()
 settings = get_settings()
 
+# Initialize the Jinja2 templates
+templates = Jinja2Templates(directory=settings.TEMPLATES_PATH)
+
+# Define the model for query text input
 class QueryText(BaseModel):
     query_text: str
 
-@router.post("/generate/")
+# Route to render the RAG HTML template
+@router.get("/", response_class=HTMLResponse)
+async def rag(request: Request):
+    """
+    Renders the RAG HTML template.
+
+    Args:
+        request (Request): The HTTP request object.
+
+    Returns:
+        HTMLResponse: The rendered HTML template for RAG.
+    """
+    return templates.TemplateResponse("rag.html", {"request": request})
+
+# Route to handle query submissions and generate responses
+@router.post("/")
 async def rag(query: QueryText):
     """
     Generate a response based on the provided query text using similarity search
     and a language model. The response includes the generated answer and source information.
 
     Args:
-        query_text (str): The text of the query for which a response is to be generated.
+        query (QueryText): The query text encapsulated in a Pydantic model.
 
     Returns:
-        tuple: A tuple containing:
-            - Original query text
-            - An empty string (reserved for potential future use)
-            - The prompt used for generating the response
-            - An empty string (reserved for potential future use)
-            - The formatted response with sources
+        JSONResponse: A JSON response containing the query, prompt, and formatted response.
     """
     try:
         text = query.query_text
+        
         # Log the incoming query text
         logging.info(f"Received query: {text}")
 
@@ -47,7 +64,7 @@ async def rag(query: QueryText):
         # Check if any results were found and if the top result has sufficient relevance
         if not results or results[0][1] < settings.SIMILARITY_THRESHOLD:
             logging.error("No matching results found or relevance is below threshold.")
-            return "Unable to find matching results."
+            return JSONResponse(content={"error": "Unable to find matching results."}, status_code=404)
 
         # Compile context text from the search results
         context_text = "\n\n---\n\n".join([doc.page_content for doc, _ in results])
@@ -78,5 +95,8 @@ async def rag(query: QueryText):
         }
         
         return JSONResponse(content=response, status_code=200)
+
     except Exception as e:
+        # Handle and log unexpected errors
+        logging.error(f"An error occurred: {e}")
         raise HTTPException(status_code=500, detail=str(e))
