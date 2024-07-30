@@ -14,7 +14,12 @@ docker compose exec fastapi pytest --pylint --cov
 docker compose down
 ```
 
-- View the Application in a Web Browser:
+- View the Application RAG HTML Page in a Web Browser:
+```
+localhost:8000
+```
+
+- View the Application Routes in a Web Browser:
 ```
 localhost:8000/docs
 ```
