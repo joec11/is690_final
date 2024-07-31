@@ -4,7 +4,7 @@ from starlette.middleware.cors import CORSMiddleware
 
 # Local imports
 from app.shared import logging, chroma_db
-from app.routers import rag_routes
+from app.routers import ui_routes, rag_routes
 
 # Create an instance of FastAPI with configuration parameters
 app = FastAPI(
@@ -63,5 +63,8 @@ async def shutdown_event():
     
     logging.info("FastAPI application shutting down.")
 
-# Include routers from the rag_routes module
+# Include router for the User Interface routes
+app.include_router(ui_routes.router)
+
+# Include router for the RAG routes
 app.include_router(rag_routes.router)
