@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException
-from fastapi.responses import JSONResponse, HTMLResponse
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 import logging
 
@@ -10,36 +10,17 @@ from app.shared import chroma_db
 # External dependencies from langchain
 from langchain_openai import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
-from fastapi.templating import Jinja2Templates
-from starlette.requests import Request
 
 # Initialize the API router and settings
 router = APIRouter()
 settings = get_settings()
 
-# Initialize the Jinja2 templates
-templates = Jinja2Templates(directory=settings.TEMPLATES_PATH)
-
 # Define the model for query text input
 class QueryText(BaseModel):
     query_text: str
 
-# Route to render the RAG HTML template
-@router.get("/", response_class=HTMLResponse)
-async def rag(request: Request):
-    """
-    Renders the RAG HTML template.
-
-    Args:
-        request (Request): The HTTP request object.
-
-    Returns:
-        HTMLResponse: The rendered HTML template for RAG.
-    """
-    return templates.TemplateResponse("rag.html", {"request": request})
-
 # Route to handle query submissions and generate responses
-@router.post("/")
+@router.post("/generate")
 async def rag(query: QueryText):
     """
     Generate a response based on the provided query text using similarity search
