@@ -17,11 +17,11 @@ def setup_logging() -> logging.Logger:
         logging.Logger: The configured logger instance.
     """
     # Ensure the 'logs' directory exists
-    os.makedirs('logs', exist_ok=True)
+    os.makedirs(settings.LOGS_DIR, exist_ok=True)
     
     # Determine the path to the 'logging.conf' file
     # Assumes the configuration file is located two directories up from the current file's directory (project root).
-    logging_config_path = os.path.join(os.path.dirname(__file__), '..', '..', settings.LOGGING_CONFIGURATION)
+    logging_config_path = os.path.join(os.path.dirname(__file__), '..', '..', settings.LOGGING_CONFIG)
     
     # Normalize the file path to resolve any '..' or other path components to an absolute path
     normalized_path = os.path.normpath(logging_config_path)

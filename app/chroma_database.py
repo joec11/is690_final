@@ -35,7 +35,7 @@ class Chroma_Database:
 
         cls.create()  # Create a new Chroma database
         embedding_function = OpenAIEmbeddings()
-        Chroma(persist_directory=settings.CHROMA_PATH, embedding_function=embedding_function)
+        Chroma(persist_directory=settings.CHROMA_DIR, embedding_function=embedding_function)
         logging.info("Chroma database initialized.")
 
     @classmethod
@@ -65,8 +65,8 @@ class Chroma_Database:
         from app.dependencies import get_settings
         settings = get_settings()
 
-        if os.path.exists(settings.CHROMA_PATH):
-            shutil.rmtree(settings.CHROMA_PATH)
+        if os.path.exists(settings.CHROMA_DIR):
+            shutil.rmtree(settings.CHROMA_DIR)
             logging.info("Chroma database directory deleted.")
         else:
             logging.info("Chroma database directory does not exist.")
@@ -83,7 +83,7 @@ class Chroma_Database:
         settings = get_settings()
 
         try:
-            loader = DirectoryLoader(settings.DATA_PATH, glob=["*.csv", "*.txt"])
+            loader = DirectoryLoader(settings.DATA_DIR, glob=settings.FILE_EXT_LIST)
             documents = loader.load()
             logging.info(f"Loaded {len(documents)} documents.")
             return documents
@@ -128,12 +128,12 @@ class Chroma_Database:
 
         try:
             # Clear existing database directory
-            if os.path.exists(settings.CHROMA_PATH):
-                shutil.rmtree(settings.CHROMA_PATH)
+            if os.path.exists(settings.CHROMA_DIR):
+                shutil.rmtree(settings.CHROMA_DIR)
                 logging.info("Cleared the existing Chroma database directory.")
             
             # Save new chunks to the database
-            cls.chroma_db = Chroma.from_documents(chunks, OpenAIEmbeddings(), persist_directory=settings.CHROMA_PATH)
+            cls.chroma_db = Chroma.from_documents(chunks, OpenAIEmbeddings(), persist_directory=settings.CHROMA_DIR)
             cls.chroma_db.persist()
             logging.info("Chunks saved to the Chroma database.")
         except Exception as e:
