@@ -11,18 +11,18 @@ router = APIRouter()
 settings = get_settings()
 
 # Initialize the Jinja2 templates
-templates = Jinja2Templates(directory=settings.TEMPLATES_PATH)
+templates = Jinja2Templates(directory=settings.TEMPLATES_DIR)
 
-# Route to render the RAG HTML template
+# Route to render the Index HTML template
 @router.get("/", response_class=HTMLResponse)
-async def rag(request: Request):
+async def index(request: Request):
     """
-    Renders the RAG HTML template.
+    Renders the Index HTML template.
 
     Args:
         request (Request): The HTTP request object.
 
     Returns:
-        HTMLResponse: The rendered HTML template for RAG.
+        HTMLResponse: The rendered Index HTML template.
     """
-    return templates.TemplateResponse("rag.html", {"request": request})
+    return templates.TemplateResponse(settings.INDEX_HTML, {"request": request})

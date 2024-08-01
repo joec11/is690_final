@@ -57,7 +57,7 @@ async def rag(query: QueryText):
         logging.debug(f"Formatted prompt: {prompt}")
 
         # Generate the response using the language model
-        model = ChatOpenAI()
+        model = ChatOpenAI(openai_api_key=settings.OPENAI_API_KEY, model=settings.OPENAI_MODEL)
         response_text = model.predict(prompt)
         logging.info(f"Generated response: {response_text}")
 
