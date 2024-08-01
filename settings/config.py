@@ -1,5 +1,6 @@
 # Standard library imports
 import os
+import json
 
 # Third-party imports
 from dotenv import find_dotenv, load_dotenv
@@ -18,11 +19,17 @@ class Settings:
     # OpenAI API key from environment variables, with a default fallback value
     OPENAI_API_KEY = os.getenv('OPENAI_API_KEY', 'default_openai_api_key')
 
+    # OpenAI Model from environment variables, defaulting to 'gpt-3.5-turbo'
+    OPENAI_MODEL = os.getenv('OPENAI_MODEL', 'gpt-3.5-turbo')
+
     # Path to the Chroma directory, defaulting to 'chroma'
-    CHROMA_PATH = os.getenv('CHROMA_DIR', 'chroma')
+    CHROMA_DIR = os.getenv('CHROMA_DIR', 'chroma')
 
     # Path to the data directory, defaulting to 'data'
-    DATA_PATH = os.getenv('DATA_DIR', 'data')
+    DATA_DIR = os.getenv('DATA_DIR', 'data')
+
+    # List of file extensions, defaulting to ["*.csv","*.txt"]
+    FILE_EXT_LIST = json.loads(os.getenv('FILE_EXT_LIST', ["*.csv","*.txt"]))
 
     # Chunk size for processing text, defaulting to 2700
     CHUNK_SIZE = int(os.getenv('CHUNK_SIZE', '2700'))
@@ -36,11 +43,17 @@ class Settings:
     # Number of top K results to return in similarity searches, defaulting to 3
     SIMILARITY_SEARCH_TOP_K = int(os.getenv('SIMILARITY_SEARCH_TOP_K', '3'))
 
+    # Path to the logs directory, defaulting to 'logs'
+    LOGS_DIR = os.getenv('LOGS_DIR', 'logs')
+
     # Path to the logging configuration file, defaulting to 'logging.conf'
-    LOGGING_CONFIGURATION = os.getenv('LOG_CONFIG', 'logging.conf')
+    LOGGING_CONFIG = os.getenv('LOGGING_CONFIG', 'logging.conf')
 
     # Path to the templates directory, defaulting to 'templates'
-    TEMPLATES_PATH = os.getenv('TEMPLATES_DIR', 'templates')
+    TEMPLATES_DIR = os.getenv('TEMPLATES_DIR', 'templates')
+
+    # Path to the index html file, defaulting to 'rag.html'
+    INDEX_HTML = os.getenv('INDEX_HTML', 'rag.html')
 
     # Load the prompt template using a utility function
     PROMPT_TEMPLATE = getPromptTemplate()
