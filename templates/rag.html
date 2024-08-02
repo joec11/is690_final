@@ -11,10 +11,10 @@
         // Show the loading spinner
         document.getElementById('loading_spinner').style.display = 'inline-block';
 
-        const query_text = document.getElementById('query_text').value;
+        const text = document.getElementById('query_textarea').value;
 
         const data = {
-            query_text: query_text
+            query_text: text
         };
 
         fetch('/generate', {
@@ -51,7 +51,7 @@
 </script>
 
 <form onsubmit="rag(event)">
-    <textarea id="query_text" name="query_text" rows="6" cols="80" placeholder="Type your query here..." required></textarea><br><br>
+    <textarea id="query_textarea" name="query_text" rows="4" cols="100" placeholder="Type your query here..." required></textarea><br><br>
     <button type="submit" class="submit-button">Submit</button>
     <!-- Loading Spinner -->
     <div id="loading_spinner" style="display:none; margin-left: 10px; vertical-align: middle;">
@@ -76,6 +76,19 @@
 </div>
 
 <style>
+
+    body {
+        background-color: #f7f7f7;
+    }
+    
+    /*********************** Query Text Area *********************/
+    #query_textarea {
+        border: 2px solid #000;
+        padding: 10px;
+        border-radius: 4px;
+    }
+    /**************** End of Query Text Area *********************/
+
     /*********************** Result ******************************/
     .result-item {
         margin-bottom: 15px;
@@ -83,7 +96,7 @@
 
     .result-content {
         white-space: pre-wrap; /* Preserves whitespace and line breaks */
-        background-color: #f5f5f5;
+        background-color: #ffffff;
         padding: 10px;
         border: 1px solid #ddd;
         border-radius: 5px;
@@ -94,7 +107,7 @@
     /*********************** Spinner *****************************/
     /* Spinner Styles */
     .spinner {
-        border: 3px solid #f3f3f3; /* Light grey */
+        border: 3px solid #ffffff; /* White */
         border-top: 3px solid #3498db; /* Blue */
         border-radius: 50%;
         width: 16px;
