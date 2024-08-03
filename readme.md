@@ -30,7 +30,7 @@ Type Control-C (^C)
 ```
 
 ## Presentation
-[IS690 Final Project Presentation]()
+[IS690 Final Project Presentation](https://youtu.be/sYmmKKIgtA0)
 
 ## Source Code and Data References
 
